@@ -199,29 +199,6 @@ class SignalManager(models.Manager):
 
         return note
 
-    def add_case(self, data, signal):
-        """Add the needed case data to the signal to make sure that the
-        data is saved correctly
-
-        :param data:
-        :return: Signal object
-        """
-        signal.zaak_url = data.get('url')
-        signal.save()
-
-        return signal
-
-    def add_document(self, data, signal):
-        """Add the needed case data to the signal to make sure that the
-        data is saved correctly
-
-        :param data:
-        :return: Signal object
-        """
-        signal.document_url = data.get('url')
-        signal.save()
-
-        return signal
 
 class CreatedUpdatedModel(models.Model):
     created_at = models.DateTimeField(editable=False, auto_now_add=True)
@@ -292,12 +269,6 @@ class Signal(CreatedUpdatedModel):
     upload = ArrayField(models.FileField(upload_to='uploads/%Y/%m/%d/'), null=True)
 
     extra_properties = JSONField(null=True)
-
-    # Zaak specifieke velden
-    zaak_uuid = models.UUIDField(blank=True, null=True)
-    zaak_url = models.URLField(blank=True, null=True)
-    zaak_identificatie = models.UUIDField(blank=True, null=True)
-    document_url = models.URLField(blank=True, null=True)
 
     objects = models.Manager()
     actions = SignalManager()
